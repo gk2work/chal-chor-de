@@ -279,13 +279,45 @@ function AppNavigator() {
   );
 }
 
-// Main App Component
+// Main App Component with error boundary
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Ignore screen capture permission errors
+    if (error.message && error.message.includes("DETECT_SCREEN_CAPTURE")) {
+      this.setState({ hasError: false });
+      return;
+    }
+    console.error("Error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Something went wrong</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   return (
-    <AuthProvider>
-      <StatusBar style="light" />
-      <AppNavigator />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AppNavigator />
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

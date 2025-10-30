@@ -37,20 +37,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow OfficeShare to use your location to find nearby carpools and track trips."
-        }
-      ],
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow OfficeShare to access your camera to scan barcodes and take photos."
-        }
-      ]
-    ],
+    "plugins": [],
     "extra": {
       "eas": {
         "projectId": "82996eae-38dc-4a3c-b7c2-7db756250336"
