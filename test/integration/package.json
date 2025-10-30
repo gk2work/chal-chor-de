@@ -1,0 +1,31 @@
+{
+    "name": "officeshare-integration-tests",
+    "version": "1.0.0",
+    "description": "End-to-end integration tests for OfficeShare platform",
+    "scripts": {
+        "test": "jest --runInBand --detectOpenHandles",
+        "test:watch": "jest --watch --runInBand",
+        "test:coverage": "jest --coverage --runInBand"
+    },
+    "keywords": [
+        "integration",
+        "e2e",
+        "testing"
+    ],
+    "author": "OfficeShare Team",
+    "license": "MIT",
+    "devDependencies": {
+        "jest": "^29.6.2",
+        "supertest": "^6.3.3",
+        "mongodb": "^6.0.0"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "testTimeout": 30000,
+        "coverageDirectory": "./coverage",
+        "collectCoverageFrom": [
+            "../../services/**/server.js",
+            "!**/node_modules/**"
+        ]
+    }
+}

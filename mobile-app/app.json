@@ -1,0 +1,60 @@
+{
+  "expo": {
+    "name": "OfficeShare",
+    "slug": "officeshare-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2196F3"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.officeshare.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#2196F3"
+      },
+      "package": "com.officeshare.mobile",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow OfficeShare to use your location to find nearby carpools and track trips."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow OfficeShare to access your camera to scan barcodes and take photos."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "82996eae-38dc-4a3c-b7c2-7db756250336"
+      }
+    }
+  }
+}

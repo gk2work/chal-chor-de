@@ -1,0 +1,86 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║           OfficeShare Platform - How to Start                 ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+🎯 CORRECT COMMAND TO START:
+
+   npm run start:all
+
+   ⚠️  NOTE: Use colon (:) not hyphen (-)!
+
+   ❌ WRONG: npm run start-all
+   ✅ RIGHT: npm run start:all
+
+
+📋 COMPLETE STARTUP SEQUENCE:
+
+Step 1: Install Dependencies (first time only)
+───────────────────────────────────────────────
+$ npm run install-all
+
+
+Step 2: Start Backend Services
+───────────────────────────────
+$ npm run start:all
+
+Wait 10-15 seconds for services to start...
+
+
+Step 3: Verify Services (optional)
+───────────────────────────────────
+$ curl http://localhost:3001/health
+$ curl http://localhost:3002/health
+
+Should see: {"status":"healthy",...}
+
+
+Step 4: Start Mobile App (NEW TERMINAL)
+────────────────────────────────────────
+$ cd mobile-app
+$ npx expo start
+
+Then:
+- Press 'i' for iOS simulator
+- Press 'a' for Android emulator
+- Scan QR code with Expo Go app
+
+
+Step 5: Start Admin Dashboard (NEW TERMINAL)
+─────────────────────────────────────────────
+$ cd admin-dashboard
+$ npm start
+
+Opens at: http://localhost:3007
+
+
+🛑 TO STOP EVERYTHING:
+
+$ ./stop-platform.sh
+
+
+📚 DOCUMENTATION:
+
+- Quick Reference: COMMANDS_CHEATSHEET.md
+- Detailed Guide: CORRECT_COMMANDS.md
+- Full User Guide: USER_GUIDE.md
+- Start Here: START_HERE.md
+
+
+🐛 TROUBLESHOOTING:
+
+Problem: "Missing script: start-all"
+Solution: Use npm run start:all (with colon!)
+
+Problem: Port already in use
+Solution: ./stop-platform.sh then try again
+
+Problem: Services won't start
+Solution: Check .env file exists and has MONGODB_URI
+
+
+✅ YOU'RE READY!
+
+Run: npm run start:all
+

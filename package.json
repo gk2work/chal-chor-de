@@ -1,0 +1,50 @@
+{
+    "name": "officeshare-platform",
+    "version": "1.0.0",
+    "description": "OfficeShare Platform - Integrated Corporate Sharing Platform",
+    "private": true,
+    "workspaces": [
+        "services/*",
+        "mobile-app",
+        "admin-dashboard"
+    ],
+    "scripts": {
+        "install-all": "npm install && npm run install-services && npm run install-apps",
+        "install-services": "cd services/api-gateway && npm install && cd ../user-service && npm install && cd ../carpooling-service && npm install && cd ../matching-service && npm install && cd ../tracking-service && npm install && cd ../notification-service && npm install && cd ../chat-service && npm install",
+        "install-apps": "cd mobile-app && npm install && cd ../admin-dashboard && npm install",
+        "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:user\" \"npm run dev:carpooling\" \"npm run dev:matching\" \"npm run dev:tracking\" \"npm run dev:notification\" \"npm run dev:chat\"",
+        "dev:gateway": "cd services/api-gateway && npm run dev",
+        "dev:user": "cd services/user-service && npm run dev",
+        "dev:carpooling": "cd services/carpooling-service && npm run dev",
+        "dev:matching": "cd services/matching-service && npm run dev",
+        "dev:tracking": "cd services/tracking-service && npm run dev",
+        "dev:notification": "cd services/notification-service && npm run dev",
+        "dev:chat": "cd services/chat-service && npm run dev",
+        "dev:mobile": "cd mobile-app && npm start",
+        "dev:admin": "cd admin-dashboard && npm start",
+        "test": "npm run test:services && npm run test:apps",
+        "test:services": "cd services/api-gateway && npm test && cd ../user-service && npm test && cd ../carpooling-service && npm test && cd ../matching-service && npm test && cd ../tracking-service && npm test && cd ../notification-service && npm test && cd ../chat-service && npm test",
+        "test:apps": "cd mobile-app && npm test && cd ../admin-dashboard && npm test",
+        "start:all": "concurrently \"npm run start:gateway\" \"npm run start:user\" \"npm run start:carpooling\" \"npm run start:matching\" \"npm run start:tracking\" \"npm run start:notification\" \"npm run start:chat\"",
+        "start:gateway": "cd services/api-gateway && npm start",
+        "start:user": "cd services/user-service && npm start",
+        "start:carpooling": "cd services/carpooling-service && npm start",
+        "start:matching": "cd services/matching-service && npm start",
+        "start:tracking": "cd services/tracking-service && npm start",
+        "start:notification": "cd services/notification-service && npm start",
+        "start:chat": "cd services/chat-service && npm start"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "nodemon": "^3.0.1"
+    },
+    "keywords": [
+        "officeshare",
+        "carpooling",
+        "bike-sharing",
+        "book-sharing",
+        "microservices"
+    ],
+    "author": "OfficeShare Team",
+    "license": "MIT"
+}

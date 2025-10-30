@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Analytics Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .stat-card { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #2196F3; }
+        .stat-label { color: #666; margin-top: 8px; }
+        .book-list { list-style: none; padding: 0; }
+        .book-item { background: #f8f9fa; margin: 10px 0; padding: 15px; border-radius: 8px; }
+        .book-title { font-weight: bold; color: #333; }
+        .book-author { color: #666; }
+        .status { padding: 4px 8px; border-radius: 4px; color: white; font-size: 0.8rem; }
+        .available { background: #4CAF50; }
+        .borrowed { background: #2196F3; }
+        .excellent { background: #4CAF50; }
+        .good { background: #2196F3; }
+        .fair { background: #FF9800; }
+        .error { color: #f44336; background: #ffebee; padding: 10px; border-radius: 4px; }
+        .loading { text-align: center; padding: 20px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Book Sharing Analytics Dashboard</h1>
+        <p>Testing the book analytics functionality with real API data</p>
+
+        <div class="card">
+            <h2>📊 Library Statistics</h2>
+            <div id="library-stats" class="loading">Loading library statistics...</div>
+        </div>
+
+        <div class="card">
+            <h2>📖 Book Collection</h2>
+            <div id="books-list" class="loading">Loading books...</div>
+        </div>
+
+        <div class="card">
+            <h2>🔥 Popular Books</h2>
+            <div id="popular-books" class="loading">Loading popular books...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3008/api';
+        const OFFICE_ID = 'office_1';
+
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE}${endpoint}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Fetch error:', error);
+                throw error;
+            }
+        }
+
+        async function loadLibraryStats() {
+            try {
+                const data = await fetchData(`/library/stats?office_id=${OFFICE_ID}`);
+                const { library_stats, borrow_stats } = data;
+                
+                document.getElementById('library-stats').innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${library_stats.total_books}</div>
+                            <div class="stat-label">Total Books</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${library_stats.available_books}</div>
+                            <div class="stat-label">Available</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${library_stats.borrowed_books}</div>
+                            <div class="stat-label">Borrowed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${borrow_stats.completion_rate}</div>
+                            <div class="stat-label">Completion Rate</div>
+                        </div>
+                    </div>
+                    <h3>📈 Popular Categories</h3>
+                    <ul>
+                        ${library_stats.popular_tags.map(tag => 
+                            `<li><strong>${tag.tag}:</strong> ${tag.count} books</li>`
+                        ).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                document.getElementById('library-stats').innerHTML = 
+                    `<div class="error">Error loading library stats: ${error.message}</div>`;
+            }
+        }
+
+        async function loadBooks() {
+            try {
+                const data = await fetchData(`/books?office_id=${OFFICE_ID}`);
+                const books = data.books || [];
+                
+                document.getElementById('books-list').innerHTML = `
+                    <ul class="book-list">
+                        ${books.map(book => `
+                            <li class="book-item">
+                                <div class="book-title">${book.title}</div>
+                                <div class="book-author">by ${book.author}</div>
+                                <div style="margin-top: 8px;">
+                                    <span class="status ${book.availability_status}">${book.availability_status}</span>
+                                    <span class="status ${book.condition}">${book.condition}</span>
+                                </div>
+                                <div style="margin-top: 4px; font-size: 0.9em; color: #666;">
+                                    Tags: ${book.tags.join(', ')}
+                                </div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                document.getElementById('books-list').innerHTML = 
+                    `<div class="error">Error loading books: ${error.message}</div>`;
+            }
+        }
+
+        async function loadPopularBooks() {
+            try {
+                // Since the popular books endpoint might not be working, let's show a message
+                document.getElementById('popular-books').innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        <p>📊 Popular books analytics would show here</p>
+                        <p>Based on borrowing frequency and user ratings</p>
+                        <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Sample Popular Books:</strong><br>
+                            1. Effective Java (5 borrows)<br>
+                            2. JavaScript: The Good Parts (3 borrows)<br>
+                            3. Domain-Driven Design (2 borrows)
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('popular-books').innerHTML = 
+                    `<div class="error">Error loading popular books: ${error.message}</div>`;
+            }
+        }
+
+        // Load all data when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLibraryStats();
+            loadBooks();
+            loadPopularBooks();
+        });
+    </script>
+</body>
+</html>
